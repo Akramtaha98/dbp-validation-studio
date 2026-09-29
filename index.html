@@ -2,9 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DBP Validation Studio</title>
 <style>
-:root{--bg:#f6f7fb;--card:#fff;--ink:#1b1e2b;--mut:#6b7185;--line:#e3e6ef;--pri:#4f46e5;--ok:#16a34a;--bad:#dc2626;--unk:#d97706;--okbg:#dcfce7;--badbg:#fee2e2;--unkbg:#fef3c7;--sub:#eef0f8}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1117;--card:#181b25;--ink:#e8eaf2;--mut:#98a0b8;--line:#2a2f3f;--pri:#818cf8;--ok:#4ade80;--bad:#f87171;--unk:#fbbf24;--okbg:#12301f;--badbg:#3a1618;--unkbg:#3a2c0d;--sub:#212536}}
-:root[data-theme="dark"]{--bg:#0f1117;--card:#181b25;--ink:#e8eaf2;--mut:#98a0b8;--line:#2a2f3f;--pri:#818cf8;--ok:#4ade80;--bad:#f87171;--unk:#fbbf24;--okbg:#12301f;--badbg:#3a1618;--unkbg:#3a2c0d;--sub:#212536}
+:root{color-scheme:light;--bg:#f6f7fb;--card:#fff;--ink:#1b1e2b;--mut:#6b7185;--line:#e3e6ef;--pri:#4f46e5;--ok:#16a34a;--bad:#dc2626;--unk:#d97706;--okbg:#dcfce7;--badbg:#fee2e2;--unkbg:#fef3c7;--sub:#eef0f8}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
 .wrap{max-width:900px;margin:0 auto;padding:20px 16px 80px}
@@ -209,6 +207,15 @@ var dr=$("drop");
 dr.addEventListener("drop",function(e){var f=e.dataTransfer.files[0];if(f)readFile(f)});
 $("pasteLink").onclick=function(e){e.preventDefault();$("pasteBox").classList.toggle("hide")};
 $("loadPaste").onclick=function(){load($("paste").value,"pasted")};
+
+async function autoLoad(){
+ var names=["dbp_1000.jsonl","dbp_1000.jsonl.rejected"];
+ try{
+  var r=await fetch(names[0],{cache:"no-store"});
+  if(r.ok){var t=await r.text();if(t.trim()){load(t,names[0]);$("drop").firstChild.textContent="Loaded default dataset dbp_1000.jsonl. Drop another .jsonl to replace it, or ";}}
+ }catch(e){}
+}
+autoLoad();
 })();
 </script>
 </body></html>
